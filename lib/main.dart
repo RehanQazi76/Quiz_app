@@ -48,7 +48,7 @@ class _QuizPageState extends State<QuizPage> {
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Center(
-              child: Text(q1.qsnbank[qsno].question,
+              child: Text(q1.getqsn(qsno),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -77,7 +77,7 @@ class _QuizPageState extends State<QuizPage> {
                 
                 setState(() {               
 
-                  bool currans=q1.qsnbank[qsno].ans;
+                  bool currans=q1.getans(qsno);
                   if(currans==true)
                   {scores.add(Icon(
                     Icons.check,
@@ -129,7 +129,7 @@ class _QuizPageState extends State<QuizPage> {
                     scores.clear();
                   }
                   
-                  bool currans=q1.qsnbank[qsno].ans;
+                  bool currans=q1.getans(qsno);
                   if(currans==false)
                   {scores.add(Icon(
                     Icons.check,
