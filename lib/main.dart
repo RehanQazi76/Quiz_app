@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizzer/db/questions.dart';
+import 'db/quesnbank.dart';
 import 'db/questions.dart';
 
 void main() => runApp(Quizzler());
@@ -31,14 +32,9 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scores=[  ];
-  List<Questions> qsnbank=[
-    Questions("kabul is the capitl of Afganistaan" , true),
-    Questions("Is shine the most common bike in India?", true),
-    Questions("Bullet gt engine is of 350cc", false),
-    Questions(" Honda city has an average of 30km/lit", false),
-  ];
   
   
+  Quesnbank q1=Quesnbank();
   int qsno=0;
 
   @override
@@ -52,7 +48,7 @@ class _QuizPageState extends State<QuizPage> {
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Center(
-              child: Text(qsnbank[qsno].question,
+              child: Text(q1.qsnbank[qsno].question,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -81,7 +77,7 @@ class _QuizPageState extends State<QuizPage> {
                 
                 setState(() {               
 
-                  bool currans=qsnbank[qsno].ans;
+                  bool currans=q1.qsnbank[qsno].ans;
                   if(currans==true)
                   {scores.add(Icon(
                     Icons.check,
@@ -133,7 +129,7 @@ class _QuizPageState extends State<QuizPage> {
                     scores.clear();
                   }
                   
-                  bool currans=qsnbank[qsno].ans;
+                  bool currans=q1.qsnbank[qsno].ans;
                   if(currans==false)
                   {scores.add(Icon(
                     Icons.check,
