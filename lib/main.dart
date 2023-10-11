@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quizzer/db/questions.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'db/quesnbank.dart';
-import 'db/questions.dart';
 
 void main() => runApp(Quizzler());
 
@@ -32,10 +31,51 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scores=[  ];
-  
-  
-  Quesnbank q1=Quesnbank();
   int qsno=0;
+    Quesnbank q1=Quesnbank();
+  void checkanswer(bool userans ){
+    bool currans=q1.getans();
+    setState(() {
+      
+      if(q1.isFinished()==true){
+        Alert(context: context,
+         title: "Quiz ended", 
+         desc: "take the quiz again",
+         buttons: [
+          DialogButton(child: Text("Retake",
+          style: TextStyle(color: Colors.white),),
+          color: Colors.green,
+           onPressed: (){})
+         ]
+         ).show();
+
+        q1.reset();
+        scores=[];
+      }
+      
+      else{
+        
+        if(currans== userans){
+         scores.add(const Icon(
+                    Icons.check,
+                    color: Colors.green,
+                  ),
+                 );
+         }
+       else{
+            scores.add(const Icon(
+            Icons.close,
+            color: Colors.red,
+              ), 
+            );
+          }
+          q1.nextQuestion();
+          }
+    });
+  }
+  
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +88,7 @@ class _QuizPageState extends State<QuizPage> {
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: Center(
-              child: Text(q1.getqsn(qsno),
+              child: Text(q1.getqsn(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -73,33 +113,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                
-                
-                setState(() {               
-
-                  bool currans=q1.getans(qsno);
-                  if(currans==true)
-                  {scores.add(Icon(
-                    Icons.check,
-                    color: Colors.green,
-                  ), );
-                  }
-                  else{
-                    scores.add(Icon(
-                    Icons.close,
-                    color: Colors.red,
-                  ), );
-                  }
-                  qsno++;
-                   if(qsno>3){
-                    qsno=0;
-                    print( "length");
-                    print( scores.length);
-                    scores.clear();
-                  }                
-
-                }
-                );
+                checkanswer(true);
               },
             ),
           ),
@@ -119,32 +133,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                
-                
-                setState(() {
-                  if(qsno>3){
-                    qsno=0;
-                    print( "length");
-                    print( scores.length);
-                    scores.clear();
-                  }
-                  
-                  bool currans=q1.getans(qsno);
-                  if(currans==false)
-                  {scores.add(Icon(
-                    Icons.check,
-                    color: Colors.green,
-                  ), );
-                  }
-                  else{
-                    scores.add(Icon(
-                    Icons.close,
-                    color: Colors.red,
-                  ), );
-                  }
-                  qsno++;
-                     
-                });
+                checkanswer(false);
               },
             ),
           ),
